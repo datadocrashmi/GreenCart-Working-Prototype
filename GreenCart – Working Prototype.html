@@ -1,0 +1,98 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>GreenCart – Sustainable Marketplace</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+:root{--bg:#f6f3ea;--card:#fff;--tile:#f1f6f1;--ink:#12332a;--mut:#53645c;--g:#2f8a57;--o:#c9701a;--line:#e3e6e4;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1f1a;--card:#17302a;--tile:#1c3a32;--ink:#eef3ee;--mut:#a9bdb3;--g:#5fc58a;--o:#f0a45c;--line:#2a463d;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1f1a;--card:#17302a;--tile:#1c3a32;--ink:#eef3ee;--mut:#a9bdb3;--g:#5fc58a;--o:#f0a45c;--line:#2a463d;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;margin:0}body{background:var(--bg);color:var(--ink);font:16px/1.45 Inter,system-ui,sans-serif}
+h1,h2,h3,.logo{font-family:'Space Grotesk',sans-serif}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--card);border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center;padding:12px 20px;flex-wrap:wrap}
+.logo{font-size:24px;font-weight:700;color:var(--g);cursor:pointer;border:0;background:none}
+.search{flex:1;min-width:180px;background:var(--tile);border:1px solid var(--line);border-radius:99px;padding:10px 18px;color:var(--ink);font:inherit}
+.btn{background:var(--g);color:#fff;border:0;border-radius:99px;padding:10px 20px;font:600 15px Inter;cursor:pointer;transition:transform .15s,filter .15s}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.08)}.btn.alt{background:var(--tile);color:var(--ink);border:1px solid var(--line)}.btn.sm{padding:7px 14px;font-size:14px}
+.bump{animation:bump .4s}@keyframes bump{50%{transform:scale(1.18)}}
+main{max-width:1100px;margin:0 auto;padding:28px 20px 80px}
+.up>*{animation:up .5s both;animation-delay:calc(var(--i,0)*60ms)}@keyframes up{from{opacity:0;transform:translateY(14px)}}
+h1{font-size:clamp(32px,6vw,52px);line-height:1.08;margin-bottom:10px}h2{font-size:30px;margin-bottom:6px}.mut{color:var(--mut)}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));margin-top:20px}
+.tile,.card{background:var(--tile);border-radius:20px;padding:22px;border:1px solid transparent;transition:transform .2s,border-color .2s;cursor:pointer;text-align:left;color:var(--ink);font:inherit}
+.tile:hover,.card:hover{transform:translateY(-4px);border-color:var(--g)}
+.tag{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--g)}.tag.o{color:var(--o)}
+.tile h3{font-size:22px;margin:4px 0}.card{background:var(--card);border:1px solid var(--line)}
+.emo{font-size:46px}.pill{display:inline-block;background:var(--g);color:#fff;border-radius:99px;padding:2px 10px;font-size:13px;font-weight:700}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:6px 14px;cursor:pointer;font:inherit}.chip.on{background:var(--g);color:#fff;border-color:var(--g)}
+form,.box{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;display:grid;gap:10px;margin-top:18px}
+input,select,textarea{font:inherit;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--tile);color:var(--ink);width:100%}
+.bar{height:8px;border-radius:9px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;background:var(--g);animation:grow .8s both}@keyframes grow{from{width:0}}
+#modal{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:16px;z-index:9}#modal.on{display:flex}
+#modal>div{background:var(--card);border-radius:24px;padding:26px;max-width:520px;width:100%;max-height:90vh;overflow:auto;animation:up .3s}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,80px);background:var(--ink);color:var(--bg);padding:12px 22px;border-radius:99px;transition:transform .35s;z-index:10}#toast.on{transform:translate(-50%,0)}
+.stat{font:700 34px 'Space Grotesk';color:var(--g)}.list>div{padding:10px 0;border-bottom:1px solid var(--line)}
+.demo{background:var(--o);color:#fff;text-align:center;padding:6px;font-size:14px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<div id="demo" class="demo" hidden>Demo mode: backend unavailable, data lasts only for this session.</div>
+<header><button class="logo" data-go="home">🛒 GreenCart</button><input id="q" class="search" placeholder="Search plastic-free, refillable, natural…" aria-label="Search"><button class="btn alt" data-go="profile">Profile</button><button class="btn" id="cartb" data-go="cart">Cart</button></header>
+<main id="app"></main><div id="modal"></div><div id="toast"></div>
+<script>
+const P=[['p1','Shikakai Herbal Shampoo','Vana Naturals','Personal care',349,94,'🌿',1,60,[96,92,95]],['p2','Reetha Soap Nut Wash','Vana Naturals','Home',299,92,'🧼',1,55,[95,90,92]],['p3','Neem Wood Comb','EcoRoots Co.','Personal care',149,90,'🪮',0,20,[92,88,90]],['p4','Bamboo Toothbrush (4)','Bamboo Basics','Personal care',249,88,'🪥',0,40,[85,90,89]],['p5','Recycled Paper Notebook','PaperLeaf','Paper',129,91,'📓',0,15,[90,92,91]],['p6','Seed Paper Pens (10)','PaperLeaf','Paper',199,89,'🖊️',0,30,[88,90,89]],['p7','Steel Lunch Box','Terra Kitchen','Kitchen',599,93,'🍱',0,120,[95,92,92]],['p8','Beeswax Food Wraps','Terra Kitchen','Kitchen',399,87,'🐝',0,50,[88,85,88]],['p9','Plant Floor Cleaner','Vana Naturals','Home',279,90,'🪣',1,70,[91,88,91]],['p10','Areca Leaf Plates (25)','EcoRoots Co.','Kitchen',229,86,'🍃',0,80,[84,88,86]]].map(a=>({id:a[0],n:a[1],v:a[2],c:a[3],p:a[4],s:a[5],e:a[6],r:a[7],g:a[8],b:a[9]}));
+const V=[['Vana Naturals','Natural care and cleaners'],['EcoRoots Co.','Wood, areca and plant-based goods'],['PaperLeaf','Recycled paper and stationery'],['Bamboo Basics','Bamboo everyday items'],['Terra Kitchen','Reusable kitchenware']];
+const EV=[['Plastic-free festival drive','Swap single-use items before the festival'],['Puja samagri collection point','Drop flowers, ash and offerings for composting'],['Refill Sunday','Bring empty bottles, get them refilled'],['Home composting workshop','Turn kitchen waste into soil']];
+const D={orders:[],vendors:[],buybacks:[],pickups:[],reviews:[],rsvps:[]};let db=null,uid='guest',admin=false,route='home',cat='All',sort='score',q='',cart={};
+try{cart=JSON.parse(localStorage.getItem('gc-cart')||'{}')}catch(e){}
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const save=()=>{try{localStorage.setItem('gc-cart',JSON.stringify(cart))}catch(e){}};
+const all=()=>[...P,...D.vendors.filter(v=>v.status==='verified'&&v.product).map(v=>({id:'v'+v.id,n:v.product,v:v.company,c:v.category,p:+v.price||0,s:75,e:'🌱',r:0,g:25,b:[75,75,75]}))];
+const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2400)};
+async function add(c,o){o.uid=uid;o.ts=Date.now();if(db)await db.collection(c).add(o);else{D[c].push({id:Math.random().toString(36).slice(2),...o});render()}}
+async function upd(c,id,o){if(db)await db.collection(c).doc(id).update(o);else{Object.assign(D[c].find(x=>x.id===id),o);render()}}
+const mine=c=>D[c].filter(x=>x.uid===uid);
+const count=()=>Object.values(cart).reduce((a,b)=>a+b,0);
+function head(){const b=$('#cartb');b.textContent='Cart · '+count();b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump')}
+const go=r=>{route=r;location.hash=r;render();scrollTo(0,0)};
+const sc=s=>`<span class="pill">${s}</span>`;
+function card(p,i){return `<div class="card" data-open="${p.id}" style="--i:${i}"><div class="emo">${p.e}</div><h3>${esc(p.n)}</h3><p class="mut">${esc(p.v)}${p.r?' · ♻ refillable':''}</p><div class="row" style="margin-top:10px"><b>₹${p.p}</b>${sc('Green '+p.s)}</div><button class="btn sm" style="margin-top:12px;width:100%" data-add="${p.id}">Add to cart</button></div>`}
+const V_={
+home(){const k=D.orders.length,pl=D.orders.reduce((a,o)=>a+(o.plastic||0),0);const T=[['DISCOVER','Easy to find, easy to buy','One search, one cart. Order at your own pace.','shop',''],['STORES','Verified green stores',V.length+D.vendors.filter(v=>v.status==='verified').length+' niche brands in one place.','vendors','o'],['TRUST & FEEDBACK','Green Score','Eco claims checked. Rate what you buy.','shop',''],['REFILL','Refill packs','Pay for the product, not the bottle again.','refill','o'],['RETURN','Buy-back','Return bottles and packets, earn credits.','refill',''],['COMMUNITY','Eco events and disposal','Recycling drives and safe puja samagri disposal.','community','o']];
+return `<div class="up"><h1 style="--i:0">Shop sustainably.<br>Return. Refill. Repeat.</h1><p class="mut" style="--i:1">Verified sustainable products from verified sustainable vendors.</p><div class="grid">${T.map((t,i)=>`<button class="tile" data-go="${t[3]}" style="--i:${i+2}"><span class="tag ${t[4]}">${t[0]}</span><h3>${t[1]}</h3><p class="mut">${t[2]}</p></button>`).join('')}</div><div class="box" style="--i:9"><div class="row"><div><div class="stat">${k}</div><span class="mut">orders placed</span></div><div><div class="stat">${pl} g</div><span class="mut">plastic avoided (estimate)</span></div><div><div class="stat">${D.buybacks.length}</div><span class="mut">buy-back requests</span></div></div></div></div>`},
+shop(){let l=all().filter(p=>(cat==='All'||(cat==='Refillable'?p.r:p.c===cat))&&(p.n+p.v+p.c).toLowerCase().includes(q.toLowerCase()));l.sort((a,b)=>sort==='score'?b.s-a.s:sort==='low'?a.p-b.p:b.p-a.p);
+return `<h2>Shop</h2><p class="mut">Every product carries a Green Score.</p><div class="chips">${['All','Refillable','Personal care','Home','Paper','Kitchen'].map(c=>`<button class="chip ${c===cat?'on':''}" data-cat="${c}">${c}</button>`).join('')}<select id="sort" style="width:auto;margin-left:auto"><option value="score" ${sort==='score'?'selected':''}>Top Green Score</option><option value="low" ${sort==='low'?'selected':''}>Price: low to high</option><option value="high" ${sort==='high'?'selected':''}>Price: high to low</option></select></div><div class="grid up">${l.map(card).join('')||'<p class="mut">Nothing found.</p>'}</div>`},
+cart(){const A=all(),L=Object.entries(cart).map(([id,n])=>({p:A.find(x=>x.id===id),n})).filter(x=>x.p);const t=L.reduce((a,x)=>a+x.p.p*x.n,0),rf=L.some(x=>x.p.r);
+return `<h2>Your cart</h2>${L.length?`<div class="box list">${L.map(x=>`<div class="row"><span>${x.p.e} ${esc(x.p.n)}</span><span><button class="chip" data-dec="${x.p.id}">−</button> ${x.n} <button class="chip" data-add="${x.p.id}">+</button> ₹${x.p.p*x.n}</span></div>`).join('')}<div class="row"><b>Total</b><b>₹${t}</b></div>${rf?'<label><input type="checkbox" id="rb" style="width:auto"> Pick up my empty bottle with delivery (earn credits)</label>':''}<button class="btn" data-checkout>Place order</button></div>`:'<p class="mut">Your cart is empty.</p><button class="btn" data-go="shop" style="margin-top:12px">Start shopping</button>'}`},
+vendors(){const pend=D.vendors.filter(v=>v.status==='pending');return `<h2>Verified green stores</h2><p class="mut">Only companies in sustainable products, packaging or green marketing can sell here.</p><div class="grid up">${V.map((v,i)=>`<div class="card" style="--i:${i}"><h3>${v[0]}</h3><p class="mut">${v[1]}</p><span class="pill">✓ Verified</span></div>`).join('')}${D.vendors.filter(v=>v.status==='verified').map(v=>`<div class="card"><h3>${esc(v.company)}</h3><p class="mut">${esc(v.category)}</p><span class="pill">✓ Verified</span></div>`).join('')}</div>
+<form data-form="vendor"><h3>Become a vendor</h3><input name="company" placeholder="Company name" required><select name="category"><option>Personal care</option><option>Home</option><option>Paper</option><option>Kitchen</option></select><textarea name="proof" placeholder="Proof of sustainability (certificates, sourcing, packaging)" required></textarea><input name="product" placeholder="First product name" required><input name="price" type="number" min="1" placeholder="Price (₹)" required><button class="btn">Submit for verification</button></form>
+${admin&&pend.length?`<div class="box list"><h3>Review queue (admin)</h3>${pend.map(v=>`<div class="row"><span><b>${esc(v.company)}</b>: ${esc(v.product)}<br><span class="mut">${esc(v.proof)}</span></span><button class="btn sm" data-ver="${v.id}">Verify</button></div>`).join('')}</div>`:''}`},
+refill(){const R=P.filter(p=>p.r),m=mine('buybacks');return `<h2>Refill and buy-back</h2><p class="mut">Return, clean, refill. You pay for the product, not the packaging.</p><div class="grid up"><div class="tile"><span class="tag">1</span><h3>Request pickup</h3><p class="mut">Tell us which bottles you have.</p></div><div class="tile"><span class="tag o">2</span><h3>We clean them</h3><p class="mut">Collected and sanitised.</p></div><div class="tile"><span class="tag">3</span><h3>Refill and credit</h3><p class="mut">Earn ₹20 credit per bottle.</p></div></div>
+<form data-form="buyback"><select name="product">${R.map(p=>`<option>${esc(p.n)}</option>`).join('')}</select><input name="n" type="number" min="1" value="1" required><textarea name="addr" placeholder="Pickup address" required></textarea><button class="btn">Request buy-back</button></form><div class="box list"><h3>My requests · ₹${m.length?m.reduce((a,b)=>a+b.n*20,0):0} credit</h3>${m.map(b=>`<div class="row"><span>${b.n} × ${esc(b.product)} · ${b.status}</span>${admin&&b.status==='Requested'?`<button class="btn sm" data-col="${b.id}">Mark collected</button>`:''}</div>`).join('')||'<p class="mut">No requests yet.</p>'}</div>`},
+community(){const m=mine('pickups'),r=mine('rsvps').map(x=>x.ev);return `<h2>Eco events and disposal</h2><div class="grid up">${EV.map((e,i)=>`<div class="card" style="--i:${i}"><h3>${e[0]}</h3><p class="mut">${e[1]}</p><button class="btn sm" style="margin-top:10px" data-rsvp="${i}" ${r.includes(i)?'disabled':''}>${r.includes(i)?'You’re going ✓':'I’ll attend'}</button></div>`).join('')}</div><p class="mut" style="margin-top:8px">Sample events for the prototype.</p>
+<form data-form="pickup"><h3>Safe puja samagri disposal</h3><select name="item"><option>Flowers and garlands</option><option>Ash and incense</option><option>Idols and clay items</option><option>Cloth and coconut shells</option></select><textarea name="addr" placeholder="Pickup address" required></textarea><button class="btn">Schedule pickup</button></form><div class="box list"><h3>My pickups</h3>${m.map(x=>`<div>${esc(x.item)} · ${x.status}</div>`).join('')||'<p class="mut">None yet.</p>'}</div>`},
+profile(){const o=mine('orders'),pl=o.reduce((a,b)=>a+(b.plastic||0),0);return `<h2>Your profile</h2><div class="box"><div class="row"><div><div class="stat">${o.length}</div><span class="mut">orders</span></div><div><div class="stat">${pl} g</div><span class="mut">plastic avoided</span></div><div><div class="stat">₹${mine('buybacks').reduce((a,b)=>a+b.n*20,0)}</div><span class="mut">credits</span></div></div></div><div class="box list"><h3>My orders</h3>${o.map(x=>`<div>${x.lines} · ₹${x.total} · ${x.status}</div>`).join('')||'<p class="mut">No orders yet.</p>'}</div>`}};
+function render(){if(document.activeElement&&/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)&&document.activeElement.closest('#app')&&route!=='shop')return;$('#app').innerHTML=V_[route]()}
+function open(id){const p=all().find(x=>x.id===id),rv=D.reviews.filter(r=>r.pid===id);const L=['Ingredients','Packaging','Vendor proof'];
+$('#modal').innerHTML=`<div><div class="row"><span class="emo">${p.e}</span><button class="chip" data-close>✕</button></div><h2>${esc(p.n)}</h2><p class="mut">${esc(p.v)} · ₹${p.p}</p>${sc('Green Score '+p.s)}${p.b.map((v,i)=>`<p style="margin-top:10px">${L[i]} · ${v}</p><div class="bar"><i style="width:${v}%"></i></div>`).join('')}<p class="mut" style="margin-top:12px">Avoids about ${p.g} g of plastic${p.r?' · refillable':''}.</p><button class="btn" style="margin:12px 0" data-add="${p.id}" data-keep>Add to cart</button><h3>Feedback</h3><div class="list">${rv.map(r=>`<div>${'★'.repeat(r.stars)} ${esc(r.text)}</div>`).join('')||'<p class="mut">No reviews yet.</p>'}</div><form data-form="review" data-pid="${p.id}" style="padding:12px"><select name="stars"><option value="5">5 stars</option><option value="4">4 stars</option><option value="3">3 stars</option></select><input name="text" placeholder="Your feedback" required><button class="btn sm">Post</button></form></div>`;$('#modal').classList.add('on')}
+document.addEventListener('click',async e=>{const t=e.target.closest('[data-go],[data-cat],[data-add],[data-dec],[data-open],[data-close],[data-checkout],[data-ver],[data-col],[data-rsvp]'),m=$('#modal');if(!t){if(e.target===m)m.classList.remove('on');return}const d=t.dataset;
+if(d.go)go(d.go);else if(d.cat){cat=d.cat;render()}
+else if(d.add!==undefined){e.stopPropagation();cart[d.add]=(cart[d.add]||0)+1;save();head();toast('Added to cart');if(route==='cart')render()}
+else if(d.dec){cart[d.dec]--;if(cart[d.dec]<1)delete cart[d.dec];save();head();render()}
+else if(d.open)open(d.open);else if('close' in d)m.classList.remove('on');
+else if('checkout' in d){const A=all(),L=Object.entries(cart).map(([id,n])=>({p:A.find(x=>x.id===id),n})).filter(x=>x.p);const rb=$('#rb')&&$('#rb').checked;await add('orders',{lines:L.map(x=>x.n+'× '+x.p.n).join(', '),total:L.reduce((a,x)=>a+x.p.p*x.n,0),plastic:L.reduce((a,x)=>a+x.p.g*x.n,0),status:'Placed'});if(rb)await add('buybacks',{product:'Bottle from order',n:1,addr:'Delivery address',status:'Requested'});cart={};save();head();toast('Order placed 🌱');go('profile')}
+else if(d.ver)upd('vendors',d.ver,{status:'verified'});else if(d.col)upd('buybacks',d.col,{status:'Collected'});
+else if(d.rsvp){await add('rsvps',{ev:+d.rsvp});toast('See you there!')}});
+document.addEventListener('submit',async e=>{e.preventDefault();const f=e.target,k=f.dataset.form,o=Object.fromEntries(new FormData(f));
+if(k==='vendor')await add('vendors',{...o,status:'pending'}),toast('Submitted for verification');
+if(k==='buyback')await add('buybacks',{product:o.product,n:+o.n,addr:o.addr,status:'Requested'}),toast('Pickup requested');
+if(k==='pickup')await add('pickups',{...o,status:'Scheduled'}),toast('Pickup scheduled');
+if(k==='review'){await add('reviews',{pid:f.dataset.pid,stars:+o.stars,text:o.text});toast('Thanks for the feedback')}
+f.reset()});
+document.addEventListener('change',e=>{if(e.target.id==='sort'){sort=e.target.value;render()}});
+$('#q').addEventListener('input',e=>{q=e.target.value;if(route!=='shop'){route='shop';location.hash='shop'}render()});
+addEventListener('hashchange',()=>{const r=location.hash.slice(1);if(V_[r]&&r!==route){route=r;render()}});
+(async()=>{const r=location.hash.slice(1);if(V_[r])route=r;head();render();
+try{const u=await claude.use('user');if(u){uid=String(await u.id());admin=await u.canEdit()}db=await claude.use('db')}catch(e){}
+if(!db){$('#demo').hidden=false;return}
+Object.keys(D).forEach(c=>db.collection(c).onSnapshot(s=>{D[c]=s.docs.map(d=>({id:d.id,...d.data()}));render()},()=>{}));render()})();
+</script></body></html>
